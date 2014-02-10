@@ -15,7 +15,7 @@
 
 
 enum
-BUILTIN_COMMANDS { NO_SUCH_BUILTIN=0, EXIT,JOBS};
+BUILTIN_COMMANDS { NO_SUCH_BUILTIN=0, EXIT,JOBS,HISTORY,CD,HELP,KILL};
 
 	char *
 buildPrompt()
@@ -26,22 +26,22 @@ buildPrompt()
 int
 isBuiltInCommand(char * cmd){
 
-	if( strncmp(cmd, "exit") == 0){
+	if( strcmp(cmd, "exit") == 0){
 		return EXIT;
 	}
-	if( strncmp(cmd, "history") == 0){
+	if( strcmp(cmd, "history") == 0){
 		return HISTORY;
 	}
-	if( strncmp(cmd, "jobs") == 0){
+	if( strcmp(cmd, "jobs") == 0){
 		return JOBS;
 	}
-	if( strncmp(cmd, "cd") == 0){
+	if( strcmp(cmd, "cd") == 0){
 		return CD;
 	}
-	if( strncmp(cmd, "kill") == 0){
+	if( strcmp(cmd, "kill") == 0){
 		return KILL;
 	}
-	if( strncmp(cmd, "help") == 0){
+	if( strcmp(cmd, "help") == 0){
 		return HELP;
 	}
 	return NO_SUCH_BUILTIN;
@@ -135,7 +135,7 @@ int main (int argc, char **argv)
 		}
 		else if(isBuiltInCommand(com->command) == JOBS){
 			for(i = 0; i < 10; i++){
-				if(jobs[i] !0){
+				if(jobs[i] != 0){
 					fprintf(stdout,"%d: %d\n", i+1,jobs[i]);
 				}
 				else{
@@ -144,12 +144,12 @@ int main (int argc, char **argv)
 			}
 		}
 		else if(isBuiltInCommand(com->command) == CD){
-			if (chdir(com->VarList[1] == -1 )
+			if (chdir(com->VarList[1]) == -1 )
 				fprintf(stderr,"no such directory\n");
 			
 		}
 		else if(isBuiltInCommand(com->command) == KILL){
-			if (kill(atoi(com->VarList[1] == -1 )))
+			if (kill(atoi(com->VarList[1]) == -1 ))
 				fprintf(stderr,"kill not sucessful\n");
 			
 		}
